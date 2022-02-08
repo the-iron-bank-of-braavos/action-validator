@@ -20,6 +20,7 @@ jobs:
     steps:
       - name: 'Action clone validator'
         run: |
+          git config user.name "GitHub Actions Bot" && git config user.email "<>"
           echo "Check if repository exists"
           if ! curl -i https://api.github.com/repos/${{ inputs.target-repo }} | grep "404" ; then
             echo "Check if repository has defined commit"
