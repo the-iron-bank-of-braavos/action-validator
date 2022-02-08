@@ -20,7 +20,6 @@ jobs:
     steps:
       - name: 'Action clone validator'
         run: |
-          git config user.name "GitHub Actions Bot" && git config user.email "<>"
           echo "Check if repository exists"
           if ! curl -i https://api.github.com/repos/${{ inputs.target-repo }} | grep "404" ; then
             echo "Check if repository has defined commit"
@@ -33,6 +32,7 @@ jobs:
               rm -rf .git
               git checkout ${{ inputs.commit-sha }}
               git init -b ${{ inputs.commit-sha }}
+              git config user.name "GitHub Actions Bot" && git config user.email "<>"
               git add . && git commit -m "${{ inputs.commit-sha }}"
               git push -u origin ${{ inputs.commit-sha }}
             else
@@ -44,6 +44,7 @@ jobs:
               git checkout ${{ inputs.commit-sha }}
               rm -rf .git
               git init -b ${{ inputs.commit-sha }}
+              git config user.name "GitHub Actions Bot" && git config user.email "<>"
               git add . && git commit -m "${{ inputs.commit-sha }}"
               gh repo create ${{ inputs.target-repo }} --private --source=. --remote=upstream
           fi
