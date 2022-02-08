@@ -20,7 +20,7 @@ jobs:
     steps:
       - run: |
           if [[ curl https://api.github.com/repos/${{ inputs.target-repo }} ]]; then
-            if [[ git branch --contains ${{ inputs.target-commit-branch }} -gt 0 ]]; then
+            if [[ git branch --contains ${{ inputs.commit-sha }} -gt 0 ]]; then
               git clone ${{ inputs.origin-repo }}
               cd ${{ inputs.origin-repo }}
               rm -rf .git
