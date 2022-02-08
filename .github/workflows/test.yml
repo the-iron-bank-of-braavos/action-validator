@@ -39,10 +39,9 @@ jobs:
             fi
           else
               echo "Creating new repository for cloned action"
-              git clone ${{ inputs.origin-repo }}
-              cd ${{ inputs.origin-repo }}
-              rm -rf .git
+              git clone ${{ inputs.origin-repo }} .
               git checkout ${{ inputs.commit-sha }}
+              rm -rf .git
               git init -b ${{ inputs.commit-sha }}
               git add . && git commit ${{ inputs.commit-sha }}
               gh repo create ${{ inputs.target-repo }} --private --source=. --remote=upstream
