@@ -32,7 +32,7 @@ jobs:
               rm -rf .git
               git checkout ${{ inputs.commit-sha }}
               git init -b ${{ inputs.commit-sha }}
-              git add . && git commit ${{ inputs.commit-sha }}
+              git add . && git commit -m "${{ inputs.commit-sha }}"
               git push -u origin ${{ inputs.commit-sha }}
             else
               echo "Repository and branch already exists"
@@ -43,6 +43,6 @@ jobs:
               git checkout ${{ inputs.commit-sha }}
               rm -rf .git
               git init -b ${{ inputs.commit-sha }}
-              git add . && git commit ${{ inputs.commit-sha }}
+              git add . && git commit -m "${{ inputs.commit-sha }}"
               gh repo create ${{ inputs.target-repo }} --private --source=. --remote=upstream
           fi
