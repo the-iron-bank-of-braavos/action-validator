@@ -22,25 +22,25 @@ jobs:
   action-clone-validator:
     runs-on: ubuntu-latest
     steps:
-      run: |
-        if [[ curl https://api.github.com/repos/${{ inputs.target-repo }} ]]  ; then
-          if [[ git branch --contains ${{ inputs.target-commit-branch }} -gt 0 ]]; then
-            git clone ${{ inputs.origin-repo }}
-            cd ${{ inputs.origin-repo }}
-            rm -rf .git
-            git checkout ${{ inputs.commit-sha }}
-            git init -b ${{ inputs.target-commit-branch }}
-            git add . && git commit ${{ inputs.target-commit-branch }}
-            git push -u origin ${{ inputs.target-commit-branch }}
+      - run: |
+          if [[ curl https://api.github.com/repos/${{ inputs.target-repo }} ]]  ; then
+            if [[ git branch --contains ${{ inputs.target-commit-branch }} -gt 0 ]]; then
+              git clone ${{ inputs.origin-repo }}
+              cd ${{ inputs.origin-repo }}
+              rm -rf .git
+              git checkout ${{ inputs.commit-sha }}
+              git init -b ${{ inputs.target-commit-branch }}
+              git add . && git commit ${{ inputs.target-commit-branch }}
+              git push -u origin ${{ inputs.target-commit-branch }}
+            else
+              echo "Repository and commit already exits"
+            fi
           else
-            echo "Repository and commit already exits"
+              git clone ${{ inputs.origin-repo }}
+              cd ${{ inputs.origin-repo }}
+              rm -rf .git
+              git checkout ${{ inputs.commit-sha }}
+              git init -b ${{ inputs.target-commit-branch }}
+              git add . && git commit ${{ inputs.target-commit-branch }}
+              gh repo create ${{ inputs.target-repo }} --private --source=. --remote=upstream
           fi
-        else
-            git clone ${{ inputs.origin-repo }}
-            cd ${{ inputs.origin-repo }}
-            rm -rf .git
-            git checkout ${{ inputs.commit-sha }}
-            git init -b ${{ inputs.target-commit-branch }}
-            git add . && git commit ${{ inputs.target-commit-branch }}
-            gh repo create ${{ inputs.target-repo }} --private --source=. --remote=upstream
-        fi
