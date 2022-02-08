@@ -20,12 +20,15 @@ jobs:
     steps:
       - name: 'Action clone validator'
         run: |
-          curl https://api.github.com/repos/${{ inputs.target-repo }}
+          echo "Check if repository exists"
+          curl https://api.github.com/repos/${{ inputs.target-repo }} || true
           CURL_RESULT=$?
           if [ $CURL_RESULT -eq 0 ]; then
-            git branch --contains ${{ inputs.commit-sha }}
+            echo "Check if repository has defined commit"
+            git branch --contains ${{ inputs.commit-sha }} || true
             CHECK_COMMIT_RESULT=$?
             if [ $CHECK_COMMIT_RESULT -gt 0 ]; then
+              echo "Creating new branch on repository"
               git clone ${{ inputs.origin-repo }}
               cd ${{ inputs.origin-repo }}
               rm -rf .git
@@ -37,6 +40,7 @@ jobs:
               echo "Repository and branch already exists"
             fi
           else
+              echo "Creating new repository for cloned action"
               git clone ${{ inputs.origin-repo }}
               cd ${{ inputs.origin-repo }}
               rm -rf .git
