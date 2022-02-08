@@ -20,8 +20,12 @@ jobs:
     steps:
       - name: 'Action clone validator'
         run: |
-          if [[ (curl https://api.github.com/repos/${{ inputs.target-repo }}) -eq 0 ]]; then
-            if [[ (git branch --contains ${{ inputs.commit-sha }}) -gt 0 ]]; then
+          curl https://api.github.com/repos/${{ inputs.target-repo }}
+          CURL_RESULT=$?
+          if [ $CURL_RESULT -eq 0 ]; then
+            git branch --contains ${{ inputs.commit-sha }}
+            CHECK_COMMIT_RESULT=$?
+            if [ $CHECK_COMMIT_RESULT -gt 0 ]; then
               git clone ${{ inputs.origin-repo }}
               cd ${{ inputs.origin-repo }}
               rm -rf .git
