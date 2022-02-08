@@ -21,8 +21,7 @@ jobs:
       - name: 'Action clone validator'
         run: |
           echo "Check if repository exists"
-          curl -i https://api.github.com/repos/${{ inputs.target-repo }}
-          if [ $? -eq 0 ]; then
+          if ! curl -i https://api.github.com/repos/${{ inputs.target-repo }} | grep "404" ; then
             echo "Check if repository has defined commit"
             curl \
             -H "Accept: application/vnd.github.v3+json" \
