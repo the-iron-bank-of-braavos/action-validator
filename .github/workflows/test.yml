@@ -23,10 +23,7 @@ jobs:
           echo "Check if repository exists"
           if ! curl -i https://api.github.com/repos/${{ inputs.target-repo }} | grep "404" ; then
             echo "Check if repository has defined commit"
-            curl \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ inputs.target-repo }}/commits | grep ${{ inputs.commit-sha }}
-            if [ $? -gt 0 ]; then
+            if ! curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ inputs.target-repo }}/commits | grep ${{ inputs.commit-sha }}; then
               echo "Creating new branch on repository"
               git clone ${{ inputs.origin-repo }} .
               rm -rf .git
