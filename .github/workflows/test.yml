@@ -46,4 +46,4 @@ jobs:
               gh repo create ${{ inputs.target-repo }} --private --source=. --remote=upstream
           fi
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.USER_PAT }}
