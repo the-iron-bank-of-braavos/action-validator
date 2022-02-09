@@ -43,6 +43,6 @@ jobs:
               git init -b ${{ inputs.commit-sha }}
               git config user.name "GitHub Actions Bot" && git config user.email "<>"
               git add . && git commit -m "${{ inputs.commit-sha }}"
-              gh auth login --with-token < ${{ secrets.USER_PAT }}
+        #      gh auth login --with-token < ${{ secrets.USER_PAT }}
               gh repo create ${{ inputs.target-repo }} --private --source=. --remote=upstream
           fi
